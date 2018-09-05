@@ -1,56 +1,65 @@
 <template lang = 'pug'>
 #app
-  h1 {{ msg }}
-  p(v-show = "showValue") {{ value }}
-  p(v-if = "showValue") {{ value }}
-  p(v-else) {{ 'No hay nada para mostrar' }}
-  p(v-else-if) {{ 'esto es else if' }}
-  p {{ 1+1 }}
-  p {{ 'hola' + ' ' + 'mundo' }}
-  p {{ 'Tu nombre es: '+  ' ' + person.name }}
-  p {{ 'Tu nombre es: '+  ' ' + person.name.toUpperCase() }}
-  p {{ 'Tu edad es: '+  ' ' + person.age }}
-  p {{ 'Tu rol es: '+  ' ' + person.rol }}
-  p {{ JSON.stringify(person) }}
-  p {{ true ? false: 'false' }}
-  ul  
-    li(v-for="item in items") {{ 'numero ' +  ' ' + item }}
-  input(v-model= "name")  
-  p {{ 'tu nombre es: ' + name }}
-  a(:href = "url") link
-  input(v-model = "lastName")
-  p {{ 'tu apellido es:' + lastName }}
-  p {{ 'Te llamas: ' + fullName }}
-
+  section.section
+    nav.nav.has-shadow
+      .container  
+        input.input.is-large(
+          type="text" 
+          placeholder="Busca tu cancion", 
+          v-model="searchQuery")
+        a.button.is-info.is-medium(@click="search") Buscar
+        a.button.is-danger.is-medium &times;
+        small {{ searchMessage }}
+      
+    .container.results
+      .column
+        .columns(v-for="track in tracks") {{ track.name }} --{{ track.artists[0].name }} --
+          span
+            a {{ track.artists[0].external_urls.spotify }}
 </template>
 
 <script>
+import trackService from './services/track'
+
+// const tracks = [
+//   { name: 'juliana', artist: 'Joan Sebastian' },
+//   { name: 'Acabame de matar', artist: 'Panteon Rocococo' },
+//   { name: 'Que pedirás ', artist: 'Masktesta' }
+// ]
+
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Mensaje de expresion {{ variables, obj, etc }}',
-      showValue: false,
-      value: 'Este es el valor',
-      items: [1, 2, 3, 4, 5],
-      person: {
-        name: 'jonh',
-        age: 32
-      },
-      rol: 'Coach',
-      name: '',
-      lastName: '',
-      url: 'https://google.com'
+      searchQuery: '',
+      tracks: []
     }
   },
   computed: {
-    fullName () {
-      return this.name + ' ' + this.lastName
+    searchMessage () {
+      return 'Encontrados ' + this.tracks.length + ' tracks'
+    }
+  },
+  watch: {
+  },
+  methods: {
+    search () {
+      console.log('se')
+      trackService.search(this.searchQuery)
+        .then(res => {
+          this.tracks = res.tracks.items
+        })
     }
   }
 }
 </script>
 
 <style lang="scss">
-@import './scss/main.scss'
+@import './scss/main.scss';
+
+.results {
+  margin-top: 3%;
+}
 </style>
+
+
