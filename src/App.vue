@@ -1,6 +1,7 @@
 <template lang = 'pug'>
 #app
-  jm-header
+  <!-- jm-header -->
+  <!-- jm-notification
   jm-loader(v-show = "isLoader")
   section.section(v-show = "!isLoader")
     nav.nav
@@ -17,7 +18,7 @@
     .container.results
       .columns.is-multiline
         .column.is-one-quarter(v-for="track in tracks") 
-          jm-track(:class = "{'is-active': track.id === selectedTrack}",  :track = "track", @select = "setSelectedTrack")
+          jm-track(:class = "{'is-active': track.id === selectedTrack}",  :track = "track", @select = "setSelectedTrack") -->
 
 
 
@@ -34,6 +35,7 @@ import jmFooter from '@/components/layout/footer.vue'
 import jmHeader from '@/components/layout/header.vue'
 import jmTrack from '@/components/track.vue'
 import jmLoader from '@/components/shared/loader.vue'
+import jmNotification from '@/components/shared/notifications.vue'
 
 // const tracks = [
 //   { name: 'juliana', artist: 'Joan Sebastian' },
@@ -43,7 +45,7 @@ import jmLoader from '@/components/shared/loader.vue'
 
 export default {
   name: 'app',
-  components: { jmFooter, jmHeader, jmTrack, jmLoader },
+  components: { jmFooter, jmHeader, jmTrack, jmLoader, jmNotification },
   data () {
     return {
       searchQuery: '',
