@@ -1,7 +1,9 @@
 <template lang = 'pug'>
 #app
-  section.section
-    nav.nav.has-shadow
+  jm-header
+  jm-loader(v-show = "isLoader")
+  section.section(v-show = "!isLoader")
+    nav.nav
       .container  
         input.input.is-large(
           type="text" 
@@ -9,17 +11,29 @@
           v-model="searchQuery")
         a.button.is-info.is-medium(@click="search") Buscar
         a.button.is-danger.is-medium &times;
-        small {{ searchMessage }}
+        p
+          small {{ searchMessage }}
       
     .container.results
-      .column
-        .columns(v-for="track in tracks") {{ track.name }} --{{ track.artists[0].name }} --
-          span
-            a {{ track.artists[0].external_urls.spotify }}
+      .columns.is-multiline
+        .column.is-one-quarter(v-for="track in tracks") 
+          jm-track(:class = "{'is-active': track.id === selectedTrack}",  :track = "track", @select = "setSelectedTrack")
+
+
+
+          <!-- {{ track.name }} --{{ track.artists[0].name }} -- -->
+            <!-- a {{ track.artists[0].external_urls.spotify }} -->
+
+  jm-footer
+
 </template>
 
 <script>
-import trackService from './services/track'
+import trackService from '@/services/track'
+import jmFooter from '@/components/layout/footer.vue'
+import jmHeader from '@/components/layout/header.vue'
+import jmTrack from '@/components/track.vue'
+import jmLoader from '@/components/shared/loader.vue'
 
 // const tracks = [
 //   { name: 'juliana', artist: 'Joan Sebastian' },
@@ -29,10 +43,13 @@ import trackService from './services/track'
 
 export default {
   name: 'app',
+  components: { jmFooter, jmHeader, jmTrack, jmLoader },
   data () {
     return {
       searchQuery: '',
-      tracks: []
+      tracks: [],
+      isLoader: false,
+      selectedTrack: ''
     }
   },
   computed: {
@@ -44,11 +61,16 @@ export default {
   },
   methods: {
     search () {
-      console.log('se')
+      if (!this.searchQuery) { return }
+      this.isLoader = true
       trackService.search(this.searchQuery)
         .then(res => {
           this.tracks = res.tracks.items
+          this.isLoader = false
         })
+    },
+    setSelectedTrack (id) {
+      this.selectedTrack = id
     }
   }
 }
@@ -60,6 +82,11 @@ export default {
 .results {
   margin-top: 3%;
 }
+
+.is-active{
+  border: 3px rgb(56, 56, 56) solid;
+}
+
 </style>
 
 
