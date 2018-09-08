@@ -10,4 +10,8 @@ trackServise.search = (q) => {
     .then(res => res.data)
 }
 
+trackServise.getById = function (id) {
+  return musicServise.get(`/tracks/${id}`)
+    .then(res => res.data)
+}
 export default trackServise

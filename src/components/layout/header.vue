@@ -6,7 +6,10 @@
           .nav-left
             .nav-item
               strong jonh Music
-          .nav-right.nav-menu
+          .nav-right.lol.nav-menu
+            router-link.nav-item(:to = "{name: 'search'}") Buscar   
+            router-link.nav-item(to = "about") Nosotros
+            
     .hero-body
       .container.has-text-centered  
         h1.title Jonh Music
@@ -22,3 +25,8 @@ export default {
 </script>
 
 
+<style lang="sass" scoped>
+.lol
+  color: white
+  text-align: right
+</style>
