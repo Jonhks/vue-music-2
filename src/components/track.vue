@@ -21,10 +21,10 @@
               a.level-item
               span.icon.is-small(@click = "selectTrack") ▶︎
               a.level-item
-              span.icon.is-small(@click = "goToTrack(track)") 🏚
-              
+              span.icon.is-small(@click = "goToTrack(track.id)") +
 
- </template> 
+
+ </template>
 
  <script>
 export default {

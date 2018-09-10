@@ -1,7 +1,7 @@
 <template lang='pug'>
 .container
   .columns
-    .column.is-5.is-offset-4
+    .column.is-6.is-offset-3
       jm-track(:track ="track")
 </template>
 

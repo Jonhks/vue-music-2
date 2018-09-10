@@ -1,23 +1,25 @@
 <template lang = 'pug'>
 main
   jm-notification(v-show = "showNotification")
-    p(slot="error") No se encontraron resultados  :( 
+    p(slot="error") No hay coincidencias, trabajaremos en ello. Prueba una nueva busqueda ;)
   jm-loader(v-show = "isLoader")
   section.section(v-show = "!isLoader")
     nav.nav
-      .container  
+      .container
         input.input.is-large(
-          type="text" 
-          placeholder="Busca tu cancion", 
-          v-model="searchQuery")
+          type="text"
+          placeholder="Busca tu cancion",
+          v-model="searchQuery",
+          @keyup.enter="search"
+          )
         a.button.is-info.is-medium(@click="search") Buscar
         a.button.is-danger.is-medium &times;
         p
           small {{ searchMessage }}
-      
+
     .container.results
       .columns.is-multiline
-        .column.is-one-quarter(v-for="track in tracks") 
+        .column.is-one-quarter(v-for="track in tracks")
           jm-track(:class = "{'is-active': track.id === selectedTrack}",  :track = "track", @select = "setSelectedTrack")
 
 
@@ -62,7 +64,7 @@ export default {
       if (this.showNotification) {
         setTimeout(() => {
           this.showNotification = false
-        }, 2000)
+        }, 4500)
       }
     }
   },

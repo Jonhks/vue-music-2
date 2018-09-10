@@ -1,6 +1,6 @@
 <template lang = 'pug'>
 #app
-  jm-header 
+  jm-header
   router-view
   jm-footer
 

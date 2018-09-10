@@ -2,18 +2,18 @@
   section.hero.is-black
     .hero-head
       header.nav
-        .container  
+        .container
           .nav-left
             .nav-item
               strong jonh Music
           .nav-right.lol.nav-menu
-            router-link.nav-item(:to = "{name: 'search'}") Buscar   
+            router-link.nav-item(:to = "{name: 'search'}") Buscar
             router-link.nav-item(to = "about") Nosotros
-            
+
     .hero-body
-      .container.has-text-centered  
+      .container.has-text-centered
         h1.title Jonh Music
-        h2.subtitle Canciones de moda
+        h2.subtitle Canciones en tendencia
         jm-player
 </template>
 
