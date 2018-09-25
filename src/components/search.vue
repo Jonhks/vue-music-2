@@ -1,8 +1,12 @@
 <template lang = 'pug'>
 main
-  jm-notification(v-show = "showNotification")
-    p(slot="error") No hay coincidencias, trabajaremos en ello. Prueba una nueva busqueda ;)
-  jm-loader(v-show = "isLoader")
+  transition(name="move")
+    jm-notification(v-show = "showNotification")
+      p(slot="error") No hay coincidencias, trabajaremos en ello. Prueba una nueva busqueda ;)
+
+  transition(name="move")
+    jm-loader(v-show = "isLoader")
+
   section.section(v-show = "!isLoader")
     nav.nav
       .container
@@ -13,14 +17,20 @@ main
           @keyup.enter="search"
           )
         a.button.is-info.is-medium(@click="search") Buscar
-        a.button.is-danger.is-medium &times;
+
+        a.button.is-danger.is-medium Cancel
         p
           small {{ searchMessage }}
 
     .container.results
       .columns.is-multiline
         .column.is-one-quarter(v-for="track in tracks")
-          jm-track(:class = "{'is-active': track.id === selectedTrack}",  :track = "track", @select = "setSelectedTrack")
+          jm-track(
+            v-blur="track.preview_url",
+            :class = "{'is-active': track.id === selectedTrack}",  
+            :track = "track", 
+            @select = "setSelectedTrack"
+          )
 
 
 
@@ -95,6 +105,9 @@ export default {
 
 .is-active{
   border: 3px rgb(56, 56, 56) solid;
+}
+a{
+  margin: 1%
 }
 
 </style>

@@ -4,7 +4,7 @@
         img(:src = "track.album.images[0].url")
       p
         strong {{ track.name }}
-        small [{{ track.duration_ms }}]
+        small ({{ track.duration_ms | ms-to-mm  }})
       br
       p
         audio(controls, :src = "track.preview_url")
@@ -13,16 +13,10 @@
  
 
  <script>
+ import { mapState } from 'vuex'
  export default {
-   data () {
-     return {
-       track: {}
-     }
-   },
-   created () {
-     this.$bus.$on('set-track', (track) => {
-       this.track = track
-     })
+   computed: {
+     ...mapState(['track'])
    }
  }
  </script>
